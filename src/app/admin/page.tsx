@@ -5,7 +5,7 @@ export default function AdminPage(){
                 Painel Administrativo
             </h1>
             <p className="mt-2 text-gray-600">
-                Gerencie produtos e pedidos.
+                Gerencie produtos e pedidos. Você conseguirá fazer diversas funções aqui nessa página
             </p>
         </main>
     );
