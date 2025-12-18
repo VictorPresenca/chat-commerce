@@ -1,6 +1,6 @@
 import Link from "next/link";
 import prisma from "@/lib/prisma";
-import type { Product } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 
 export default async function AdminProductPage() {
     const products = await prisma.product.findMany({
@@ -27,7 +27,7 @@ export default async function AdminProductPage() {
                     </tr>
                 </thead>
                 <tbody>
-                    {products.map((product: Product) => (
+                    {products.map((product: Prisma.ProductGetPayload<{}>) => (
                         <tr key={product.id}>
                             <td className="border p-2">{product.name}</td>
                             <td className="border p-2">
@@ -40,7 +40,7 @@ export default async function AdminProductPage() {
                                 <Link href={`/admin/products/${product.id}`} className="text-blue-600 houver:underline">
                                     Editar
                                 </Link>
-                            <form action={`/admin/product/${product.id}/delete`}
+                            <form action={`/admin/products/${product.id}/delete`}
                             method="post"
                             className="inline"
                             >
