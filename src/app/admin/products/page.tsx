@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { prisma, Product } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
+import type { Product } from "@prisma/client";
 
 export default async function AdminProductPage() {
     const products = await prisma.product.findMany({

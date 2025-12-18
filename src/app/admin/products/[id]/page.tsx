@@ -1,12 +1,15 @@
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 interface Props {
-    params: {id: string };
+    params: Promise <{id: string }>;
 }
 
 export default async function EditProductPage ({ params }: Props){
+
+    const { id } = await params;
+
     const product = await prisma.product.findUnique({
-        where: { id: params.id },
+        where: { id: id },
     });
 
     if (!product){
@@ -19,7 +22,7 @@ export default async function EditProductPage ({ params }: Props){
                 Editar produto
             </h1>
 
-            <form action="">
+            <form action={`/admin/products/${id}/update`} method="POST">
                 <input  
                     name="name"
                     defaultValue={product.name}
