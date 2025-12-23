@@ -1,8 +1,24 @@
-export default function SlugProducts(){
+import prisma from "@/lib/prisma";
+import { notFound } from "next/navigation";
+
+export default async function SlugProducts({
+    params,
+}: {
+    params: { slug: string};
+}) {
+    const product = await prisma.product.findUnique({
+        where: { slug: params.slug },
+    });
+
+    if (!product) return notFound();
+
     return(
-        <main>
-            <h1>Titulo</h1>
-            <p>P</p>
+        <main className="p-6 max-w-xl mx-auto">
+            <h1 className="text-2xl font-bold">{product.name}</h1>
+            <p className="mt-2 text-gray-600">{product.description}</p>
+            <p className="mt-4 text-xl font-semibold">
+                R$ {(Number(product.price) / 100).toFixed(2)}
+            </p>
         </main>
     );
 }

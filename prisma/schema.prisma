@@ -29,6 +29,7 @@ model Product {
   description String
   price       Decimal
   stock       Int
+  active      Boolean  @default(true)
 
   orderItems OrderItem[]
 
