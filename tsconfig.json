@@ -30,6 +30,6 @@
     "src/types/**/*.d.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "scripts/create-admin.js"  ],
+, "scripts/create-admin.js", "scripts/reset-admin.js"  ],
   "exclude": ["node_modules"]
 }

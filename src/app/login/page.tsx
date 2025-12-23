@@ -15,6 +15,8 @@ export default function LoginPage() {
                     email: form.email.value,
                     password: form.password.value,
                     callbackUrl: "/admin/products",
+                    }).then((res) => {
+                    console.log("SIGNIN RESULT:", res);
                 });
             }}
                 className="space-y-4"
