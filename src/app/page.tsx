@@ -12,7 +12,7 @@ export default async function AppPage() {
       {products.map((product) => (
         <Link
           key={product.id}
-          href={`/app/store/products/${product.slug}`}
+          href={`/store/products/${product.slug}`}
           className="border rounded p-4 hover:shadow"
         >
           <h2 className="font-bold">{product.name}</h2>

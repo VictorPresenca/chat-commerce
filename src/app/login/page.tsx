@@ -14,7 +14,7 @@ export default function LoginPage() {
                 await signIn("credentials", {
                     email: form.email.value,
                     password: form.password.value,
-                    callbackUrl: "/admin/products",
+                    callbackUrl: "/",
                     }).then((res) => {
                     console.log("SIGNIN RESULT:", res);
                 });
