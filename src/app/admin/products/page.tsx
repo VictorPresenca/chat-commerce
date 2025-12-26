@@ -1,8 +1,16 @@
 import Link from "next/link";
 import prisma from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 import type { Prisma } from "@prisma/client";
 
 export default async function AdminProductPage() {
+    const session = await auth();
+
+    if (!session || session.user.role !== "ADMIN"){
+        redirect
+    }
+
     const products = await prisma.product.findMany({
         orderBy: { createdAt: "desc"},
     });
