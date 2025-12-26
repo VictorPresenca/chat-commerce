@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import type { Prisma } from "@prisma/client";
+import DeleteProductButton from "@/components/deleteProductButton";
 
 export default async function AdminProductPage() {
     const session = await auth();
@@ -48,14 +49,7 @@ export default async function AdminProductPage() {
                                 <Link href={`/admin/products/${product.id}`} className="text-blue-600 houver:underline">
                                     Editar
                                 </Link>
-                            <form action={`/admin/products/${product.id}/delete`}
-                            method="post"
-                            className="inline"
-                            >
-                                <button className="text-red-600 houver:underline">
-                                    Excluir
-                                </button>
-                            </form>
+                            <DeleteProductButton id={product.id} />
                             </td>
                         </tr>
                     ))}
