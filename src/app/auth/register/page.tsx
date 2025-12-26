@@ -20,14 +20,16 @@ export default function RegisterPage() {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
-            <input name="name" placeholder="Nome" required />
-            <input name="email" type="email" placeholder="Email" required />
-            <input name="password" type="password" placeholder="Senha" required />
+        <main className="p-6 max-w-xl mx-auto">
+            <form onSubmit={handleSubmit} className="space-y-4">
+                <input name="name" placeholder="Nome" className="w-full border p-2" required />
+                <input name="email" type="email" placeholder="Email" className="w-full border p-2" required />
+                <input name="password" type="password" placeholder="Senha" className="w-full border p-2" required />
 
-            <button disabled={loading}>
-                {loading ? "Criando conta..." : "Cadastrar"}
-            </button>
-        </form>
+                <button disabled={loading} className="w-full bg-black text-white py-2 rounded">
+                    {loading ? "Criando conta..." : "Cadastrar"}
+                </button>
+            </form>
+        </main>
     );
 }
