@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import { AddToCartButton } from "@/components/cart/addToCartButton";
 
 export default async function SlugProducts({
     params,
@@ -21,6 +22,8 @@ export default async function SlugProducts({
             <p className="mt-4 text-xl font-semibold">
                 R$ {(Number(product.price) / 100).toFixed(2)}
             </p>
+
+            <AddToCartButton productId={product.id} />
         </main>
     );
 }

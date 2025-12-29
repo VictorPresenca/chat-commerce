@@ -3,11 +3,15 @@
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useState, useRef, useEffect } from "react";
+import { useCart } from "@/lib/store";
 
 export function Navbar() {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const totalItems = useCart((state) => 
+    state.items.reduce((acc, item) => acc + item.quantity, 0)
+  );
 
   useEffect(() => {
     function handleClickOutSide(event: MouseEvent) {
@@ -27,6 +31,16 @@ export function Navbar() {
         <Link href="/" className="font-bold text-lg">
           F. Frio
         </Link>
+
+        <div className="flex items-center gap-6">
+          <Link href="/store/cart" className="relative">
+            Carrinho
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2">
+                {totalItems}
+              </span>
+            )}
+          </Link>
 
           {!session ? (
             <div className="flex gap-3">
@@ -84,6 +98,7 @@ export function Navbar() {
               )}
             </div>
           )}
+        </div>
       </nav>
     </header>
   );
