@@ -4,6 +4,7 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useState, useRef, useEffect } from "react";
 import { useCart } from "@/lib/store";
+import { ShoppingCart } from "lucide-react";
 
 export function Navbar() {
   const { data: session } = useSession();
@@ -33,8 +34,9 @@ export function Navbar() {
         </Link>
 
         <div className="flex items-center gap-6">
-          <Link href="/store/cart" className="relative">
-            Carrinho
+          <Link href="/store/cart" className="relative"
+          >
+            <ShoppingCart size={24} strokeWidth={1.5} className="text-black" />
             {totalItems > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2">
                 {totalItems}

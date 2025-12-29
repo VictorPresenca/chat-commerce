@@ -16,6 +16,7 @@ model User {
   accounts  Account[]
   sessions  Session[]
 
+  addresses Address[]
   orders    Order[]
 
   createdAt DateTime @default(now())
@@ -39,14 +40,16 @@ model Product {
 
 model Order {
   id        String      @id @default(cuid())
-  status    OrderStatus @default(PENDING)
-  total     Decimal
-
   userId    String
   user      User        @relation(fields: [userId], references: [id])
 
-  items     OrderItem[]
+  addressId String
+  address   Address     @relation(fields: [addressId], references: [id])
 
+  total     Decimal
+  status    OrderStatus @default(PENDING)
+
+  items     OrderItem[]
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 }
@@ -66,14 +69,18 @@ enum OrderStatus {
 
 model OrderItem {
   id        String   @id @default(cuid())
-  quantity  Int
-  price     Decimal
-
-  order     Order    @relation(fields: [orderId], references: [id])
   orderId   String
+  order     Order    @relation(fields: [orderId], references: [id])
 
-  product   Product  @relation(fields: [productId], references: [id])
-  productId String
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  
+  name      String
+  price     Decimal
+  quantity  Int
+
+  @@index([orderId])
+  @@index([productId])
 }
 
 model Account {
@@ -93,6 +100,23 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+model Address {
+  id          String  @id @default(cuid())
+  userId      String?
+  user        User?   @relation(fields: [userId], references: [id])
+
+  street      String
+  number      String
+  complement  String?
+  district    String
+  city        String
+  state       String
+  zipCode     String
+
+  orders      Order[]
+  createdAt   DateTime  @default(now())
 }
 
 model Session {

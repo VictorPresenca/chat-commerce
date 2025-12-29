@@ -20,7 +20,7 @@ export default async function SlugProducts({
             <h1 className="text-2xl font-bold">{product.name}</h1>
             <p className="mt-2 text-gray-600">{product.description}</p>
             <p className="mt-4 text-xl font-semibold">
-                R$ {(Number(product.price) / 100).toFixed(2)}
+                R$ {(Number(product.price)).toFixed(2)}
             </p>
 
             <AddToCartButton productId={product.id} />

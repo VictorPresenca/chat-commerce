@@ -17,7 +17,7 @@ export default async function AppPage() {
         >
           <h2 className="font-bold">{product.name}</h2>
           <p className="text-sm text-gray-500">
-            R$ {(Number(product.price) / 100).toFixed(2)}
+            R$ {(Number(product.price)).toFixed(2)}
           </p>
         </Link>
       ))}
