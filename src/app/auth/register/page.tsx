@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getAddressByCep } from "@/lib/viacep";
 import { PasswordRules } from "@/components/passwordRules";
+import { AddressFields } from "@/components/address/addressForm";
 
 export default function RegisterPage() {
     const [loading, setLoading] = useState(false);
@@ -98,66 +99,7 @@ export default function RegisterPage() {
 
                 <hr />
 
-                <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                        <label className="text-xs font-medium">Endereço de Entrega</label>
-                        {loadingCep && <span className="text-xs text-blue-600 animate-pulse">Buscando CEP... </span>}
-                    </div>
-                    <input 
-                        name="zipCode" 
-                        placeholder="CEP"
-                        onBlur={handleCepBlur}
-                        maxLength={8}
-                        className="w-full border p-2 rounded"
-                        required
-                    />
-                    <div className="grid grid-cols-4 gap-2">
-                        <input 
-                            name="street"
-                            placeholder="Rua"
-                            value={address.street || ""} 
-                            onChange={(e) => setAddress({...address, street: e.target.value})}
-                            className="col-span-3 border p-2 rounded bg-gray-50"
-                            required
-                        />
-                    <input name="number" placeholder="Nº" className="col-span-1 border p-2 rounded" required/>
-                    </div>
-
-
-                    <div className="grid grid-cols-3 gap-2">
-                        <input 
-                            name="district"
-                            placeholder="Bairro"
-                            value={address.district || ""}
-                            onChange={(e) => setAddress({...address, district: e.target.value})}
-                            className="border p-2 rounded bg-gray-50" 
-                            required
-                        />
-
-                        <input
-                            name="city"
-                            placeholder="Cidade"
-                            value={address.city || ""}
-                            onChange={(e) => setAddress({...address, city: e.target.value})}
-                            className="border p-2 rounded bg-gray-50"
-                            required
-                        />
-                        <input 
-                            name="complement" 
-                            placeholder="Complemento (Opcional)" 
-                            className="w-full border p-2 rounded" 
-                        />
-                    </div>
-                    <input
-                        name="state"
-                        placeholder="UF"
-                        value={address.state || ""}
-                        onChange={(e) => setAddress({...address, state: e.target.value})}
-                        className="w-full border p-2 rounded bg-gray-50"
-                        maxLength={2}
-                        required
-                    />
-                </div>
+                <AddressFields isEmbedded />
 
                 <button 
                     disabled={loading || loadingCep} 
