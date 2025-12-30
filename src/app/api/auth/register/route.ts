@@ -6,23 +6,60 @@ export async function POST(req: Request) {
     try {
         const formData = await req.formData();
 
-        const name = String(formData.get("name"));
-        const email = String(formData.get("email"));
+        const name = String(formData.get("name")).trim();
+        const email = String(formData.get("email")).toLowerCase().trim();
         const password = String(formData.get("password"));
 
-        const zipCode = String(formData.get("zipCode"));
-        const street = String(formData.get("street"));
-        const number = String(formData.get("number"));
-        const complement = formData.get("complement") || "";
-        const district = String(formData.get("district"));
-        const city = String(formData.get("city"));
-        const state = String(formData.get("state"));
+        const zipCode = String(formData.get("zipCode")).replace(/\D/g, "");
+        const street = String(formData.get("street")).trim();
+        const number = String(formData.get("number")).trim();
+        const complement = String(formData.get("complement") || "").trim();
+        const district = String(formData.get("district")).trim();
+        const city = String(formData.get("city")).trim();
+        const state = String(formData.get("state")).trim().toUpperCase();
 
-        if (!name || !email || !password || !zipCode || !street || !number) {
+        const passwordRules = {
+            minLength: password.length >= 6,
+            hasUpperCase: /[A-Z]/.test(password),
+            hasLowerCase: /[a-z]/.test(password),
+            hasNumber: /\d/.test(password),
+            hasSpecialChar: /[^A-Za-z0-9]/.test(password),
+        };  
+
+        const isPasswordValid = Object.values(passwordRules).every(Boolean);
+
+        if (
+            !name ||
+            !email ||
+            !password ||
+            !zipCode ||
+            !street ||
+            !number ||
+            !district ||
+            !city ||
+            !state
+            ) {
             return NextResponse.json(
                 { error: "Dados inválidos ou incompletos" },
                 { status: 400 }
             );
+        }
+
+        if (!isPasswordValid) {
+            return NextResponse.json(
+                {
+                error:
+                    "A senha deve ter no mínimo 6 caracteres e conter letra maiúscula, letra minúscula, número e caractere especial",
+                },
+                { status: 400 }
+            );
+        }
+
+        if (!/^\d{8}$/.test(zipCode)) {
+        return NextResponse.json(
+            { error: "CEP inválido" },
+            { status: 400 }
+        );
         }
 
         const userExists = await prisma.user.findUnique({

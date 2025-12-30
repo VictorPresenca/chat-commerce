@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getAddressByCep } from "@/lib/viacep";
+import { PasswordRules } from "@/components/passwordRules";
 
 export default function RegisterPage() {
     const [loading, setLoading] = useState(false);
     const [loadingCep, setLoadingCep] = useState(false);
     const router = useRouter();
+    const [password, setPassword] = useState("");
 
     const [address, setAddress] = useState({
         street: "",
@@ -21,7 +23,16 @@ export default function RegisterPage() {
         if (cep.length === 8) {
             setLoadingCep(true);
             const data = await getAddressByCep(cep);
-            if (data) {
+            
+            if (!data) {
+                alert("CEP Inválido ou não encontrado!");
+                setAddress({
+                    street: "",
+                    district: "",
+                    city: "",
+                    state: "",
+                });
+            } else {
                 setAddress({
                     street: data.street,
                     district: data.district,
@@ -77,9 +88,12 @@ export default function RegisterPage() {
                         name="password" 
                         type="password" 
                         placeholder="Senha" 
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         className="w-full border p-2 rounded" 
                         required 
                     />
+                    <PasswordRules password={password} />
                 </div>
 
                 <hr />
@@ -101,7 +115,7 @@ export default function RegisterPage() {
                         <input 
                             name="street"
                             placeholder="Rua"
-                            value={address.street} 
+                            value={address.street || ""} 
                             onChange={(e) => setAddress({...address, street: e.target.value})}
                             className="col-span-3 border p-2 rounded bg-gray-50"
                             required
@@ -114,7 +128,7 @@ export default function RegisterPage() {
                         <input 
                             name="district"
                             placeholder="Bairro"
-                            value={address.district}
+                            value={address.district || ""}
                             onChange={(e) => setAddress({...address, district: e.target.value})}
                             className="border p-2 rounded bg-gray-50" 
                             required
@@ -123,7 +137,7 @@ export default function RegisterPage() {
                         <input
                             name="city"
                             placeholder="Cidade"
-                            value={address.city}
+                            value={address.city || ""}
                             onChange={(e) => setAddress({...address, city: e.target.value})}
                             className="border p-2 rounded bg-gray-50"
                             required
@@ -137,7 +151,7 @@ export default function RegisterPage() {
                     <input
                         name="state"
                         placeholder="UF"
-                        value={address.state}
+                        value={address.state || ""}
                         onChange={(e) => setAddress({...address, state: e.target.value})}
                         className="w-full border p-2 rounded bg-gray-50"
                         maxLength={2}
