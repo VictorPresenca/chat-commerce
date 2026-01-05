@@ -15,7 +15,6 @@ function getProductData(formData: FormData) {
   };
 }
 
-// ACTION: CRIAR PRODUTO
 export async function createProduct(formData: FormData) {
   await requireAdmin();
 
@@ -26,11 +25,10 @@ export async function createProduct(formData: FormData) {
   });
 
   revalidatePath("/admin/products");
-  revalidatePath("/"); // Atualiza a home caso o produto novo deva aparecer lá
+  revalidatePath("/");
   redirect("/admin/products");
 }
 
-// ACTION: ATUALIZAR PRODUTO
 export async function updateProduct(id: string, formData: FormData) {
   await requireAdmin();
 
@@ -46,7 +44,6 @@ export async function updateProduct(id: string, formData: FormData) {
   redirect("/admin/products");
 }
 
-// ACTION: DELETAR PRODUTO
 export async function deleteProduct(id: string) {
   await requireAdmin();
 
