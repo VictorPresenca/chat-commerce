@@ -21,6 +21,8 @@ export async function middleware(req: NextRequest) {
         );
     }
 
+    console.log("ROLE Detectada: ", token?.role);
+
     return NextResponse.next();
 }
 
